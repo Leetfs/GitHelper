@@ -4,6 +4,7 @@
   "description": "一键配置git，帮助新手快速上手",
   "main": "main/main.js",
   "dependencies": {
+    "@electron-forge/maker-dmg": "^7.6.0",
     "boolean": "^3.2.0",
     "buffer-crc32": "^0.2.13",
     "cacheable-lookup": "^5.0.4",
@@ -80,12 +81,6 @@
     "@electron/fuses": "^1.8.0",
     "electron": "^33.2.1"
   },
-  "scripts": {
-    "start": "electron-forge start",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "package": "electron-forge package",
-    "make": "electron-forge make"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Leetfs/git-helper.git"
@@ -102,5 +97,10 @@
   "bugs": {
     "url": "https://github.com/Leetfs/git-helper/issues"
   },
-  "homepage": "https://github.com/Leetfs/git-helper#readme"
+  "homepage": "https://github.com/Leetfs/git-helper#readme",
+  "scripts": {
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make"
+  }
 }
