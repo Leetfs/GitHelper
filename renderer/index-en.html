@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="style/main.css">
+    <script src="./renderer.js" defer></script>
     <title>Git Helper</title>
 </head>
 <body>
@@ -17,18 +18,19 @@
             </div>
         </div>
     </nav>
-    <p>Welcome to my little tool~ This tool will help you configure your Git environment.</p>
-    <h2 class="BianJu">Install Git</h2>
-    <button id="install-git-btn" class="BianJu">Click to Install</button>
-    <button id="install-link-btn" class="BianJu">Backup Link</button>
-    <h2 class="BianJu">Configure Git</h2>
-    <form id="git-settings-form" class="BianJu">
+    <p>Hi~ This tool will help you easily configure your Git environment.</p>
+    <h2 class="margin">Install Git</h2>
+    <button id="install-git-btn" class="margin">Click to Install</button>
+    <h2 class="margin">Configure Git</h2>
+    <form id="gitForm" class="margin">
         <label for="name">Name</label>
-        <input type="text" id="name" name="name" required><br>
+        <input type="text" id="username"><br>
         <label for="email">Email</label>
-        <input type="email" id="email" name="email" required><br>  
-        <button type="submit" id="setting-git-btn">One-Click Setup</button>
+        <input type="email" id="email"><br>  
+        <button type="submit" id="setting-git-btn">Set Up Git</button>
     </form>
-    <script src="renderer.js"></script>
+    <p id="result"></p>
+    <p id="info"></p>
+    <p>If you like it, please give me a Star! Repository: <button id="star">Leetfs/git-helper</button></p>
 </body>
 </html>

@@ -70,8 +70,8 @@ ipcMain.handle('update-git-config', async (event, { username, email }) => {
     if (email) {
       await runGitCommand(`git config --global user.email "${email}"`);
     }
-    return 'Git 配置更新成功';
+    return 'Success!';
   } catch (error) {
-    return `Git 配置更新失败: ${error}`;
+    return `Error: ${error}`;
   }
 });
