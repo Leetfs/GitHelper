@@ -1,0 +1,50 @@
+name: 部署到 Cloudflare Pages
+
+on:
+  push:
+    branches:
+      - 'main'
+  workflow_dispatch:
+
+jobs:
+  linux:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Install dependencies with Yarn
+        run: yarn install
+
+      - name: make
+        run: yarn make
+
+  windows:
+    runs-on: windows-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Install dependencies with Yarn
+        run: yarn install
+
+      - name: make
+        run: yarn make
+
+  macos:
+    runs-on: macos-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Install dependencies with Yarn
+        run: yarn install
+
+      - name: make
+        run: yarn make
