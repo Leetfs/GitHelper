@@ -1,4 +1,4 @@
-name: 部署到 Cloudflare Pages
+name: make
 
 on:
   push:
