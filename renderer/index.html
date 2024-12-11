@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style/main.css">
+    <script src="./renderer.js" defer></script>
+    <title>Git Helper</title>
+</head>
+<body>
+    <nav>
+        <div class="title">Git Helper</div>
+        <div class="language-switch">
+            <button>Language</button>
+            <div class="dropdown">
+                <a href="./index.html">中文</a>
+                <a href="./index-en.html">English</a>
+            </div>
+        </div>
+    </nav>
+    <p>欢迎使用我开发的小工具！这个工具将帮助你轻松配置 Git 环境。</p>
+    <h2 class="margin">安装 Git</h2>
+    <button id="install-git-btn" class="margin">点击安装</button>
+    <h2 class="margin">配置 Git</h2>
+    <form id="gitForm" class="margin">
+        <label for="name">姓名</label>
+        <input type="text" id="username"><br>
+        <label for="email">邮箱</label>
+        <input type="email" id="email"><br>  
+        <button type="submit" id="setting-git-btn">一键设置</button>
+    </form>
+    <p id="result"></p>
+    <p id="info"></p>
+    <p>喜欢的话请为我点个 Star! 仓库地址: <button id="star">Leetfs/git-helper</button></p>
+</body>
+</html>

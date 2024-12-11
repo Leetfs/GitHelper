@@ -1,0 +1,125 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #e5e5f7; /* 使用较淡的紫色作为背景色 */
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+/* 导航栏样式 */
+nav {
+    background-color: #333;
+    color: white;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* 标题样式 */
+.title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+/* 语言切换按钮和下拉菜单 */
+.language-switch {
+    position: relative;
+    display: inline-block;
+}
+
+.language-switch button {
+    background-color: #555; 
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 100px;
+}
+
+.language-switch .dropdown {
+    display: none;
+    position: absolute;
+    background-color: #333;
+    right: 0;
+    top: 100%;
+    min-width: 100px;
+    z-index: 1;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.language-switch .dropdown a {
+    color: white;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.language-switch:hover .dropdown {
+    display: block;
+}
+
+.language-switch .dropdown a:hover {
+    background-color: #555;
+    border-radius: 5px;
+}
+
+/* 标题和段落样式 */
+h1, h2 {
+    color: #333;
+}
+
+p {
+    margin: 20px;
+    color: #555;
+}
+
+/* 按钮样式 */
+button {
+    /*background: linear-gradient(45deg, #55CDFC, #F7A8B8); /* 渐变色彩 */
+    color: white;
+    background: #555;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 10px 0;
+    transition: background-color 0.3s ease;
+}
+
+#star {
+    width: auto;
+    height: auto;
+    background: #e5e5f7;
+    color: #555; 
+    font-weight: bold;
+    /* border: 2px solid #55CDFC; /* 加上浅蓝边框 */
+}
+
+button:hover {
+    background-color: #0f0f0f; /* 悬停时的颜色 */
+}
+
+/* 表单元素样式 */
+label {
+    font-size: 16px;
+    color: #333;
+    margin-top: 10px;
+}
+
+/* 容器样式 */
+.container {
+    margin: 20px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* 边距设置 */
+.margin {
+    margin-left: 20px;
+}
