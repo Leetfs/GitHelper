@@ -3,6 +3,7 @@ const { FuseV1Options, FuseVersion } = require('@electron/fuses');
 
 module.exports = {
   packagerConfig: {
+    icon: './assets/dmg-background.png',
     asar: true,
   },
   rebuildConfig: {},
@@ -13,7 +14,20 @@ module.exports = {
     },
     {
       name: '@electron-forge/maker-zip',
+      platforms: ['win32'], // Windows ZIP 格式
+    },
+    {
+      name: '@electron-forge/maker-zip',
       platforms: ['darwin'],
+    },
+    {
+      name: '@electron-forge/maker-dmg',
+      config: {
+        background: './assets/dmg-background.png',
+        format: 'ULFO',
+        icon: './assets/dmg-background.png',
+        overwrite: true,
+      }
     },
     {
       name: '@electron-forge/maker-deb',
@@ -22,13 +36,6 @@ module.exports = {
     {
       name: '@electron-forge/maker-rpm',
       config: {},
-    },
-    {
-      name: '@electron-forge/maker-dmg',
-      config: {
-        background: './assets/dmg-background.png',
-        format: 'ULFO'
-      }
     },
   ],
   plugins: [
