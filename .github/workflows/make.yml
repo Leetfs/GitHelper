@@ -98,6 +98,7 @@ jobs:
             macos-${{ env.VERSION }}/GitHelper-${{ env.VERSION }}-arm64.dmg
             windows-${{ env.VERSION }}/squirrel.windows/x64/GitHelper-${{ env.VERSION }} Setup.exe
             windows-${{ env.VERSION }}/squirrel.windows/x64/GitHelper-${{ env.VERSION }}-full.nupkg
+            windows-${{ env.VERSION }}/zip/win32/x64/GitHelper-win32-x64-${{ env.VERSION }}.zip
             linux-${{ env.VERSION }}/deb/x64/githelper_${{ env.VERSION }}_amd64.deb
             linux-${{ env.VERSION }}/rpm/x64/GitHelper-${{ env.VERSION }}-1.x86_64.rpm
           tag_name: ${{ env.VERSION }}
