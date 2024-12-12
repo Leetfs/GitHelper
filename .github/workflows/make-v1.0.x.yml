@@ -101,4 +101,4 @@ jobs:
             windows-${{ env.VERSION }}/zip/win32/x64/GitHelper-win32-x64-${{ env.VERSION }}.zip
             linux-${{ env.VERSION }}/deb/x64/githelper_${{ env.VERSION }}_amd64.deb
             linux-${{ env.VERSION }}/rpm/x64/GitHelper-${{ env.VERSION }}-1.x86_64.rpm
-          tag_name: ${{ env.VERSION }}
+          tag_name: v${{ env.VERSION }}
