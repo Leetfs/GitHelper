@@ -1,6 +1,6 @@
 ﻿{
   "name": "GitHelper",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "One-click Git setup for username and email.",
   "main": "main/main.js",
   "dependencies": {

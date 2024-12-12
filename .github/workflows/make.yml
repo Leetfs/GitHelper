@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -30,22 +30,22 @@ jobs:
           yarn make
 
       - name: Upload Linux Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: linux-artifact
+          name: linux-${{ env.VERSION }}
           path: out/make
 
   windows:
     runs-on: windows-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Set version
         run: |
-          powershell -Command "(gc .\package.json) -replace '"version": ".*"', '"version": \"$($env:VERSION)\"' | Set-Content .\package.json"
+          powershell -Command "(gc .\package.json) -replace '0.0.0', '$($env:VERSION)' | Set-Content .\package.json"
 
       - name: Install dependencies with Yarn
         run: yarn install
@@ -54,16 +54,16 @@ jobs:
         run: yarn make
 
       - name: Upload Windows Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: windows-artifact
+          name: windows-${{ env.VERSION }}
           path: out/make
 
   macos:
     runs-on: macos-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -78,69 +78,56 @@ jobs:
         run: yarn make
 
       - name: Upload macOS Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: macos-artifact
+          name: macos-${{ env.VERSION }}
           path: out/make
 
   release:
     needs: [linux, windows, macos]
     runs-on: ubuntu-latest
     steps:
-      - name: Download Linux Artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: linux-artifact
-          path: dist/linux
+      - name: Download Artifact
+        uses: actions/download-artifact@v4
 
-      - name: Download Windows Artifact
-        uses: actions/download-artifact@v3
+      - name: GH Release
+        uses: softprops/action-gh-release@v2.2.0
         with:
-          name: windows-artifact
-          path: dist/windows
+          files: |
+            macos-${{ env.VERSION }}/zip/darwin/arm64/GitHelper-darwin-arm64-${{ env.VERSION }}.zip
+            macos-${{ env.VERSION }}/GitHelper-${{ env.VERSION }}-arm64.dmg
+            windows-${{ env.VERSION }}/squirrel.windows/x64/GitHelper-${{ env.VERSION }} Setup.exe
+            windows-${{ env.VERSION }}/squirrel.windows/x64/GitHelper-${{ env.VERSION }}-full.nupkg
+            linux-${{ env.VERSION }}/deb/x64/githelper_${{ env.VERSION }}_amd64.deb
+            linux-${{ env.VERSION }}/rpm/x64/GitHelper-${{ env.VERSION }}-1.x86_64.rpm
+          tag_name: ${{ env.VERSION }}
 
-      - name: Download macOS Artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: macos-artifact
-          path: dist/macos
+      # - name: Upload Linux Asset
+      #   uses: actions/upload-release-asset@v1
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     upload_url: ${{ steps.create_release.outputs.upload_url }}
+      #     asset_path: dist/linux
+      #     asset_name: linux.zip
+      #     asset_content_type: application/zip
 
-      - name: Create Release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: v${{ env.VERSION }}
-          release_name: Git Helper v${{ env.VERSION }}
-          draft: false
-          prerelease: false
+      # - name: Upload Windows Asset
+      #   uses: actions/upload-release-asset@v1
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     upload_url: ${{ steps.create_release.outputs.upload_url }}
+      #     asset_path: dist/windows
+      #     asset_name: windows.zip
+      #     asset_content_type: application/zip
 
-      - name: Upload Linux Asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: dist/linux
-          asset_name: linux.zip
-          asset_content_type: application/zip
-
-      - name: Upload Windows Asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: dist/windows
-          asset_name: windows.zip
-          asset_content_type: application/zip
-
-      - name: Upload macOS Asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: dist/macos
-          asset_name: macos.zip
-          asset_content_type: application/zip
+      # - name: Upload macOS Asset
+      #   uses: actions/upload-release-asset@v1
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     upload_url: ${{ steps.create_release.outputs.upload_url }}
+      #     asset_path: dist/macos
+      #     asset_name: macos.zip
+      #     asset_content_type: application/zip
