@@ -6,45 +6,141 @@ on:
       - 'main'
   workflow_dispatch:
 
+env:
+  VERSION: 1.0.${{ github.run_number }}  # 动态版本号，基于当前工作流运行次数
+
 jobs:
   linux:
     runs-on: ubuntu-latest
     steps:
-      - name: checkout
+      - name: Checkout code
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
+      - name: Set version
+        run: |
+          sed -i "s/\"version\": \".*\"/\"version\": \"$VERSION\"/" package.json
+
       - name: Install dependencies with Yarn
         run: yarn install
 
-      - name: make
-        run: yarn make
+      - name: Build for Linux
+        run: |
+          yarn make
+
+      - name: Upload Linux Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: linux-artifact
+          path: out/make
 
   windows:
     runs-on: windows-latest
     steps:
-      - name: checkout
+      - name: Checkout code
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
+      - name: Set version
+        run: |
+          powershell -Command "(gc .\package.json) -replace '"version": ".*"', '"version": \"$($env:VERSION)\"' | Set-Content .\package.json"
+
       - name: Install dependencies with Yarn
         run: yarn install
 
-      - name: make
+      - name: Build for Windows
         run: yarn make
+
+      - name: Upload Windows Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: windows-artifact
+          path: out/make
 
   macos:
     runs-on: macos-latest
     steps:
-      - name: checkout
+      - name: Checkout code
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
+      - name: Set version
+        run: |
+          sed -i '' "s/\"version\": \".*\"/\"version\": \"$VERSION\"/" package.json
+
       - name: Install dependencies with Yarn
         run: yarn install
 
-      - name: make
+      - name: Build for macOS
         run: yarn make
+
+      - name: Upload macOS Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: macos-artifact
+          path: out/make
+
+  release:
+    needs: [linux, windows, macos]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Linux Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: linux-artifact
+          path: dist/linux
+
+      - name: Download Windows Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: windows-artifact
+          path: dist/windows
+
+      - name: Download macOS Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: macos-artifact
+          path: dist/macos
+
+      - name: Create Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ env.VERSION }}
+          release_name: Git Helper v${{ env.VERSION }}
+          draft: false
+          prerelease: false
+
+      - name: Upload Linux Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: dist/linux
+          asset_name: linux.zip
+          asset_content_type: application/zip
+
+      - name: Upload Windows Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: dist/windows
+          asset_name: windows.zip
+          asset_content_type: application/zip
+
+      - name: Upload macOS Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: dist/macos
+          asset_name: macos.zip
+          asset_content_type: application/zip
