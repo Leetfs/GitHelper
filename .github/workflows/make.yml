@@ -91,7 +91,7 @@ jobs:
         uses: actions/download-artifact@v4
 
       - name: GH Release
-        uses: softprops/action-gh-release@v2.2.0
+        uses: softprops/action-gh-release@v2
         with:
           files: |
             macos-${{ env.VERSION }}/zip/darwin/arm64/GitHelper-darwin-arm64-${{ env.VERSION }}.zip
@@ -101,33 +101,3 @@ jobs:
             linux-${{ env.VERSION }}/deb/x64/githelper_${{ env.VERSION }}_amd64.deb
             linux-${{ env.VERSION }}/rpm/x64/GitHelper-${{ env.VERSION }}-1.x86_64.rpm
           tag_name: ${{ env.VERSION }}
-
-      # - name: Upload Linux Asset
-      #   uses: actions/upload-release-asset@v1
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   with:
-      #     upload_url: ${{ steps.create_release.outputs.upload_url }}
-      #     asset_path: dist/linux
-      #     asset_name: linux.zip
-      #     asset_content_type: application/zip
-
-      # - name: Upload Windows Asset
-      #   uses: actions/upload-release-asset@v1
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   with:
-      #     upload_url: ${{ steps.create_release.outputs.upload_url }}
-      #     asset_path: dist/windows
-      #     asset_name: windows.zip
-      #     asset_content_type: application/zip
-
-      # - name: Upload macOS Asset
-      #   uses: actions/upload-release-asset@v1
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   with:
-      #     upload_url: ${{ steps.create_release.outputs.upload_url }}
-      #     asset_path: dist/macos
-      #     asset_name: macos.zip
-      #     asset_content_type: application/zip
